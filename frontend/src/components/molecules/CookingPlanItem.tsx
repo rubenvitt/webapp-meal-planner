@@ -2,6 +2,7 @@ import React from "react";
 import moment from "moment";
 import { DescriptionList } from "@atoms/DescriptionList";
 import "moment/locale/de";
+import Link from "next/link";
 
 export class MealType {
   static readonly FISH = new MealType("FISH", "blue-500");
@@ -63,30 +64,35 @@ interface Props {
 export function CookingPlanItem({ plannedFor, meal }: Props) {
   return (
     <li className="shadow-md flex flex-col m-2 rounded-lg">
-      <div
-        className={`bg-${meal.type.color} text-white w-full text-sm flex items-center justify-center font-medium p-1 rounded-t-md`}
-      >
-        {plannedFor.diff(moment(), "days") === 0
-          ? "Heute"
-          : plannedFor.fromNow()}
-      </div>
-      <div
-        className={`border-x border-b rounded-b-lg border-${meal.type.color}`}
-      >
-        <div className="p-1">{meal.name}</div>
-        <dl className="p-1 text-gray-700 p-1">
-          <DescriptionList
-            classNames={{
-              dt: "text-sm font-bold",
-              dd: "text-sm",
-            }}
-            items={[
-              { name: "Zubereitung", value: meal.preparationTime + " Minuten" },
-              { name: "Menge", value: String(meal.servings) + " Personen" },
-            ]}
-          />
-        </dl>
-      </div>
+      <Link href="#">
+        <div
+          className={`bg-${meal.type.color} text-white w-full text-sm flex items-center justify-center font-medium p-1 rounded-t-md`}
+        >
+          {plannedFor.diff(moment(), "hour") === 0
+            ? "Heute"
+            : plannedFor.fromNow()}
+        </div>
+        <div
+          className={`border-x border-b rounded-b-lg border-${meal.type.color}`}
+        >
+          <div className="p-1">{meal.name}</div>
+          <dl className="p-1 text-gray-700 p-1">
+            <DescriptionList
+              classNames={{
+                dt: "text-sm font-bold",
+                dd: "text-sm",
+              }}
+              items={[
+                {
+                  name: "Zubereitung",
+                  value: meal.preparationTime + " Minuten",
+                },
+                { name: "Menge", value: String(meal.servings) + " Personen" },
+              ]}
+            />
+          </dl>
+        </div>
+      </Link>
     </li>
   );
 }

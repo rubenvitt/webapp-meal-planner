@@ -45,6 +45,18 @@
       ],
       "@templates/*": [
         "./src/components/templates/*"
+      ],
+      "@app-types/*": [
+        "./src/types/*"
+      ],
+      "@utils/*": [
+        "./src/utils/*"
+      ],
+      "@backend-service/*": [
+        "./src/service/backend-service/*"
+      ],
+      "@api-service/*": [
+        "./src/service/api-service/*"
       ]
     }
   },
