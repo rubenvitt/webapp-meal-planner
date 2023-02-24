@@ -1,11 +1,28 @@
 <script lang="ts" setup>
-import { usePageContext } from "../../../renderer/usePageContext";
-
-const { routeParams } = usePageContext();
-
-const { recipeId } = routeParams as { recipeId: string };
+const recipes = [
+  {
+    id: 1,
+    title: "Recipe 1",
+  },
+  {
+    id: 2,
+    title: "Recipe 2",
+  },
+  {
+    id: 3,
+    title: "Recipe 3",
+  },
+];
 </script>
 
 <template>
-  <h1 class="text-red-600">Rezept - {{ recipeId }}</h1>
+  <h1 class="text-red-600">List of recipes</h1>
+
+  <ul>
+    <li v-for="recipe in recipes" :key="recipe.id">
+      <a :href="`/app/recipes/${recipe.id}`">
+        {{ recipe.title }}
+      </a>
+    </li>
+  </ul>
 </template>
