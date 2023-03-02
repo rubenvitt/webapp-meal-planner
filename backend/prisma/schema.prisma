@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -15,7 +12,9 @@ model Group {
   name      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  users     User[]
+
+  Recipes Recipe[] @relation("GroupToRecipe")
+  Users   User[]   @relation("GroupToUser")
 }
 
 model User {
@@ -24,5 +23,51 @@ model User {
   name      String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  groups    Group[]
+
+  Groups Group[] @relation("GroupToUser")
+}
+
+model Recipe {
+  id        String   @id @default(cuid())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Groups           Group[]            @relation("GroupToRecipe")
+  Meals            Meal[]             @relation("MealToRecipe")
+  RecipeIngredient RecipeIngredient[]
+}
+
+model RecipeIngredient {
+  id        String   @id @default(cuid())
+  amount    Float
+  unit      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Ingredient   Ingredient @relation(fields: [ingredientId], references: [id])
+  Recipe       Recipe     @relation(fields: [recipeId], references: [id])
+  recipeId     String
+  ingredientId String
+}
+
+model Ingredient {
+  id        String   @id @default(cuid())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  RecipeIngredient RecipeIngredient[]
+
+  @@unique([name])
+}
+
+model Meal {
+  id        String   @id @default(cuid())
+  name      String
+  planned   DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Recipe Recipe[] @relation("MealToRecipe")
 }
